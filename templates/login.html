@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>تسجيل الدخول - ملعب كوبري قزير</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --navy:    #0d1b3e;
+    --navy2:   #132050;
+    --navy3:   #1a2a6c;
+    --red:     #b71c1c;
+    --red2:    #e53935;
+    --white:   #ffffff;
+    --offwhite:#f0f4ff;
+    --text:    #e8ecf8;
+    --text-dim:#a8b4d8;
+    --text-muted:#5a6a9a;
+    --border:  rgba(255,255,255,0.10);
+    --card:    rgba(13,27,62,0.92);
+    --r:       16px;
+    --r-sm:    10px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    padding: 20px;
+    background: var(--navy);
+    background-image:
+      radial-gradient(ellipse at 10% 10%, rgba(183,28,28,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 90%, rgba(26,42,108,0.5) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    position: relative;
+    overflow-x: hidden;
+    color: var(--text);
+  }
+
+  /* Decorative bridge arches */
+  body::before {
+    content: '';
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to top, rgba(183,28,28,0.07), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Red top bar */
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--red), var(--red2), var(--navy));
+    z-index: 100;
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Logo ── */
+  .auth-logo {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .logo-img-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .logo-img-wrap img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 24px rgba(183,28,28,0.5));
+    animation: logoPulse 3s ease-in-out infinite;
+  }
+  @keyframes logoPulse {
+    0%,100% { filter: drop-shadow(0 0 18px rgba(183,28,28,0.4)); }
+    50%      { filter: drop-shadow(0 0 36px rgba(183,28,28,0.7)); }
+  }
+
+  .logo-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: var(--red2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-weight: 700;
+  }
+  .logo-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .logo-divider span {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red));
+  }
+  .logo-divider span:last-child {
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+  .logo-divider i { color: var(--red2); font-size: 8px; }
+
+  /* ── Card ── */
+  .auth-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red);
+    border-radius: var(--r);
+    padding: 30px 26px;
+    box-shadow:
+      0 24px 60px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.04) inset;
+    backdrop-filter: blur(20px);
+  }
+
+  .auth-title {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    color: var(--white);
+  }
+  .auth-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  /* ── Form ── */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .input-wrap { position: relative; }
+  .input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 13px;
+    pointer-events: none;
+    transition: color .2s;
+  }
+  .form-control {
+    width: 100%;
+    padding: 12px 40px 12px 13px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    transition: all .2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .form-control:focus {
+    border-color: var(--red);
+    background: rgba(183,28,28,0.06);
+    box-shadow: 0 0 0 3px rgba(183,28,28,0.15);
+  }
+  .form-control:focus + .input-icon,
+  .input-wrap:focus-within .input-icon { color: var(--red2); }
+  .form-control::placeholder { color: var(--text-muted); }
+
+  /* ── Button ── */
+  .btn-auth {
+    width: 100%;
+    padding: 13px;
+    border-radius: var(--r-sm);
+    background: linear-gradient(135deg, var(--red), var(--red2));
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: all .2s;
+    box-shadow: 0 4px 20px rgba(183,28,28,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    letter-spacing: 0.5px;
+  }
+  .btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(183,28,28,0.5);
+  }
+  .btn-auth:active { transform: none; opacity: .92; }
+
+  /* ── Link ── */
+  .auth-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .auth-link a {
+    color: var(--red2);
+    font-weight: 800;
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .auth-link a:hover { color: var(--white); }
+
+  /* ── Demo accounts ── */
+  .demo-accounts {
+    margin-top: 20px;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+  }
+  .demo-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .demo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 6px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .2s;
+    border-radius: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .demo-item:last-child { border-bottom: none; }
+  .demo-item:hover { background: rgba(255,255,255,0.05); }
+  .demo-role { font-size: 12px; font-weight: 700; color: var(--text); }
+  .demo-creds { font-size: 11px; color: var(--text-muted); font-family: monospace; margin-top:2px; }
+  .badge-role {
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .badge-admin  { background: rgba(183,28,28,0.2); color: #ff6b6b; border: 1px solid rgba(183,28,28,0.3); }
+  .badge-owner  { background: rgba(255,255,255,0.1); color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+  .badge-player { background: rgba(26,42,108,0.4); color: #7eb3ff; border: 1px solid rgba(26,42,108,0.6); }
+
+  /* Stars decoration */
+  .stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 10px 0 4px;
+  }
+  .stars-row i { color: var(--red2); font-size: 8px; }
+
+  /* ── Toast ── */
+  #toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .toast {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    animation: slideUp .3s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    pointer-events: auto;
+    max-width: 420px;
+    width: 100%;
+  }
+  .toast-error   { background: #c62828; color: white; }
+  .toast-success { background: #1b5e20; color: white; }
+  @keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+
+  @media (max-width: 480px) {
+    .auth-card { padding: 22px 16px; }
+    .form-control { font-size: 16px; }
+    .demo-creds { display: none; }
+    .logo-img-wrap img { width: 80px; height: 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div id="toast-container"></div>
+
+<div class="auth-container">
+  <div class="auth-logo">
+    <div class="logo-img-wrap">
+      <img src="/static/img/logooo2.jpeg" alt="Egzir Bridge Stadium Logo"
+           onerror="this.style.display='none';document.getElementById('fallback-icon').style.display='flex'">
+      <div id="fallback-icon" style="display:none;width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#0d1b3e,#b71c1c);align-items:center;justify-content:center;font-size:38px;border:3px solid #b71c1c;">⚽</div>
+    </div>
+    <div class="logo-title">ملعب كوبري قزير</div>
+    <div class="logo-divider">
+      <span></span>
+      <i class="fas fa-star"></i>
+      <div class="logo-sub">MINI FOOT · MISRATA</div>
+      <i class="fas fa-star"></i>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-title">مرحباً بك 👋</div>
+    <div class="auth-sub">سجّل دخولك للمتابعة</div>
+
+    <div class="form-group">
+      <label class="form-label">رقم الهاتف</label>
+      <div class="input-wrap">
+        <input type="tel" id="phone" class="form-control"
+          placeholder="05xxxxxxxx" autocomplete="tel"
+          inputmode="numeric" pattern="[0-9]*">
+        <i class="fas fa-phone input-icon"></i>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">كلمة المرور</label>
+      <div class="input-wrap">
+        <input type="password" id="password" class="form-control"
+          placeholder="••••••••" autocomplete="current-password">
+        <i class="fas fa-lock input-icon"></i>
+      </div>
+    </div>
+
+    <button class="btn-auth" id="loginBtn" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+    </button>
+
+    <div class="auth-link">
+      ليس لديك حساب؟ <a href="/register">إنشاء حساب جديد</a>
+    </div>
+
+    <!-- <div class="demo-accounts">
+      <div class="demo-title">🔑 حسابات تجريبية</div>
+      <div class="demo-item" onclick="fillDemo('0000000000','admin123')">
+        <div>
+          <div class="demo-role">مدير المنصة</div>
+          <div class="demo-creds">0000000000 / admin123</div>
+        </div>
+        <span class="badge-role badge-admin">أدمن</span>
+      </div>
+      <div class="demo-item" onclick="fillDemo('0511111111','owner123')">
+        <div>
+          <div class="demo-role">مالك الملعب</div>
+          <div class="demo-creds">0511111111 / owner123</div>
+        </div>
+        <span class="badge-role badge-owner">مالك</span>
+      </div>
+      <div class="demo-item" onclick="fillDemo('0522222222','player123')">
+        <div>
+          <div class="demo-role">لاعب</div>
+          <div class="demo-creds">0522222222 / player123</div>
+        </div>
+        <span class="badge-role badge-player">لاعب</span>
+      </div>
+    </div> -->
+  </div>
+
+  <!-- Footer branding -->
+  <div class="stars-row">
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+  </div>
+  <div style="text-align:center;font-size:10px;color:var(--text-muted);letter-spacing:1.5px;margin-top:2px;">
+    EGZIR BRIDGE ST. · MISRATA 2026
+  </div>
+</div>
+
+<script>
+function fillDemo(phone, pass) {
+  document.getElementById('phone').value = phone;
+  document.getElementById('password').value = pass;
+}
+
+async function doLogin() {
+  const phone = document.getElementById('phone').value.trim();
+  const password = document.getElementById('password').value;
+  if (!phone || !password) { showToast('أدخل رقم الهاتف وكلمة المرور','error'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+  btn.disabled = true;
+  try {
+    const data = await fetch('/api/login',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({phone,password})
+    }).then(r=>r.json());
+    if (data.success) {
+      showToast(`أهلاً ${data.name}! ✨`,'success');
+      setTimeout(()=>window.location.href='/dashboard',800);
+    } else {
+      showToast(data.message,'error');
+      btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    showToast('خطأ في الاتصال بالخادم','error');
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+    btn.disabled = false;
+  }
+}
+
+function showToast(msg,type='success') {
+  const c=document.getElementById('toast-container');
+  const t=document.createElement('div');
+  t.className=`toast toast-${type}`;
+  t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'times-circle'}"></i> ${msg}`;
+  c.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+</script>
+</body>
+</html>
