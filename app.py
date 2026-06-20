@@ -15,7 +15,7 @@ app.secret_key = "stadium_secret_key_2024"
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
-    "postgresql://postgres:c9Hwb5bXU450LZqZ@db.mjuylgrmjbsshibwoari.supabase.co:5432/postgres"
+    "postgresql://postgres.mjuylgrmjbsshibwoari:uH8A1tJwTFGcYZ8v@aws-1-eu-central-2.pooler.supabase.com:5432/postgres"
 )
 
 
