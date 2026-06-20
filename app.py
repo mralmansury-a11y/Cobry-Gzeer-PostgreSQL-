@@ -15,7 +15,7 @@ app.secret_key = "stadium_secret_key_2024"
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
-    "postgresql://neondb_owner:npg_X6rJtV3KTbwF@ep-odd-feather-ahe5hcyt-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    "postgresql://postgres:c9Hwb5bXU450LZqZ@db.mjuylgrmjbsshibwoari.supabase.co:5432/postgres"
 )
 
 
